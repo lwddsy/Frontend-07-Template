@@ -44,7 +44,7 @@
 3. 大师
 
 # 相关网站
-1.whatwg.org html相关标准
-2.w3.org/TR 权威文档
+1. whatwg.org html相关标准
+2. w3.org/TR 权威文档
 
 
