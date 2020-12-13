@@ -150,5 +150,61 @@
         }
     }
     show(pattern)
-</script>
 
+</script>
+<style>
+    #container div {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: inline-block;
+      background-color: grey;
+    }
+    .red {
+        background-color: red!important;
+    }
+    .yellow {
+        background-color: yellow!important;
+    }
+    .green {
+        background-color: green!important;
+    }
+</style>
+  
+<div id="container">
+    <div id="green"></div>
+    <div id="yellow"></div>
+    <div id="red"></div>
+</div>
+
+<script>
+function lightLight(color) {
+    document.getElementById('red').classList.remove('red');
+    document.getElementById('yellow').classList.remove('yellow');
+    document.getElementById('green').classList.remove('green');
+    var light = document.getElementById(color);
+    light.classList.add(color);
+}
+
+function wait(time) {
+    return new Promise((reslove) => {
+        setTimeout(() => {
+            reslove()
+        }, time)
+    })
+}
+
+async function go() {
+    while(true) {
+        lightLight('green');
+        await wait(1000);
+        lightLight('yellow');
+        await wait(500);
+        lightLight('red');
+        await wait(1000);
+    }
+}
+
+go();
+
+</script>
