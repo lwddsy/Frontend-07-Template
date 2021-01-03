@@ -1,0 +1,62 @@
+<div id="container" style="-webkit-user-select: none;"> 我生在江南一隅，在江南的温婉情怀里沉醉了十多栽。江南周遭世事沧桑bai变迁，喧哗或耳语中流传的故事无法一一讲述得清，而我对江南的眷恋情怀却依旧！
+    也许，是在这里住了太久的的缘故，我反而无法用确切的语言来描绘有着2500年沧桑之地的种种动人之处。现在细细回想，觉得可以把江南水乡之美体现得淋漓尽致的只有乌镇了。
+    在一个多雨的季节里，我随着父母一起来到这个地方，迷迷蒙蒙的天空，如烟如雾似梦似幻的雨丝，湿漉漉的青石板……一个让人寻觅已久的本色乌镇就这样鲜灵灵地呈现在我的眼前。踏入这座小镇，恍若隔世。那一座座记载着岁月沧桑的古旧木屋临水而建，傍桥而立，仿佛诉说着千百年来曲折的经历，更折射出一种古老绚烂的文化。
+    在雨天，乌镇总有着说不尽的缠绵悱恻。走在狭长的小巷里，踩在平坦的青石小路上，轻抚两旁斑驳的老墙，似乎看见了这里昔日的繁华：挂着招牌的茶馆里，头戴毡帽身穿马褂的人们或是品茶或是饮酒，巷子里黄酒香飘四溢；小商贩们在一旁吆喝，出售水果、蔬菜和小吃；典当行门口人来人往，戴着眼镜的老板坐在窗口后面打点着当物；手工作坊里织布机吱噶作响，布料扎染成花布后被做成了扇子、头巾、小背包、婴儿穿的小肚兜；从私塾里下课的孩子们三三两两地走进一个小院，原来这里即将上演一场《三打白骨精》的皮影戏……
+    水，永远是江南古镇的主题。悠悠流淌着的是傍河居民的生活主线，水承载着他们的希望，承载着他们的淳朴流向更远的地方。这里的水，碧绿碧绿，这里的人，清清澈澈。我们坐上了乌蓬船，船慢慢地游荡开来，船夫站在船尾，熟练地摆动着桨，荡开一阵阵涟漪，船左右摇摆着向前荡着，左右房舍似乎也在摇摆着，倚在扶手上，随着船摇摆着，突然感觉，好像一下子摆脱了城市快节奏的生活，融入了一片安宁祥和的小镇生活中了，这里的一切，随着水流慢慢飘荡着，远方，成片的杨柳随风摇摆，是惬意，是安逸。乌镇的水，就是这样，这样的水，孕育出了水一样的人。
+    暮色已临，细雨微湿，只见雨巷寂寞，一把江南的伞，一道屋后流水，一条微醉的船……　　
+    </div>
+
+<div id="draggable" style="display: inline-block;width: 100px; height: 100px; background-color: yellowgreen;">
+
+</div>
+
+<script>
+    let draggable = document.getElementById('draggable');
+    let baseX = 0;
+    let baseY = 0;
+    draggable.addEventListener('mousedown', function(event) {
+        let startX = event.clientX;
+        let startY = event.clientY;
+
+        let up = (event) => {
+            document.removeEventListener('mouseup', up);
+            document.removeEventListener('mousemove', move);
+            baseX = event.clientX - startX + baseX;
+            baseY = event.clientY - startY + baseY;
+            console.log('up', baseX, baseY)
+        }
+        let move = (event) => {
+            console.log(baseX, baseY)
+            // draggable.style.transform = `translate(${event.clientX - startX + baseX}px, ${event.clientY - startY + baseY}px)`
+
+            let range = getNearest(event.clientX, event.clientY);
+            range.insertNode(draggable);
+        }
+        document.addEventListener('mousemove', move)
+        document.addEventListener('mouseup', up)
+    })
+    let ranges = [];
+    let container = document.getElementById('container');
+    for(let i=0; i< container.childNodes[0].textContent.length; i++) {
+        let range = document.createRange();
+        range.setStart(container.childNodes[0], i);
+        range.setEnd(container.childNodes[0], i);
+        console.log(range.getBoundingClientRect());
+        ranges.push(range);
+    }
+
+    function getNearest(x, y) {
+        let min = Infinity;
+        let nearest = null;
+        for(let range of ranges) {
+            let rect = range.getBoundingClientRect();
+            let distance = (rect.x - x) ** 2 + (rect.y - y) ** 2;
+            if(distance < min) {
+                nearest = range;
+                min = distance;
+            }
+        }
+
+        return nearest;
+    }
+</script>
